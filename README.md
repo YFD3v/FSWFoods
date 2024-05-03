@@ -10,7 +10,12 @@ Executei o comando npx husky init
 Em pre-commit adicionei os comandos:
 npx lint-staged
 Criei o arquivo .lintstagedrc.json 
+Instalei git-commit-msg-linter - Serve para padronizar os commits
+Adicionei o arquivo commit-msg e adicionei o código:
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
+.git/hooks/commit-msg $1
 
 //Serve para rodar algum comando antes de cada commit para padronização e organização das linhas de código
 //Lint-staged serve para rodar o comando apenas no arquivo que teve mudança
