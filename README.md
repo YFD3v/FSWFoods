@@ -9,7 +9,6 @@ Instalei -D husky lint-staged
 Executei o comando npx husky init
 Em pre-commit adicionei os comandos:
 npx lint-staged
-npx eslint --fix /app
 Criei o arquivo .lintstagedrc.json 
 
 
