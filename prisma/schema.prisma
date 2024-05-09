@@ -27,7 +27,10 @@ model Category {
   imageUrl    String
   restaurants Restaurant[]
   Product     Product[]
+   createdAt DateTime @default(now())
 }
+
+//Caso eu faça o painel admin, eu posso adicionar a tabela da relação many to many aqui e adicionar uma propriedade de ordenação das categorias, para que ao mostrar os produtos no restaurant o usuário consiga escolher em qual ordem vai aparecer os seus produtos
 
 model Product {
   id                 String     @id @default(uuid())
@@ -40,5 +43,6 @@ model Product {
   restaurant         Restaurant @relation(fields: [restaurantId], references: [id])
   categoryId         String
   category           Category   @relation(fields: [categoryId], references: [id])
+  createdAt DateTime @default(now())
 }
 
