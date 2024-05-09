@@ -7,6 +7,7 @@ import { ChevronRightIcon } from "lucide-react";
 import { db } from "./_lib/prisma";
 import PromoBanner from "./_components/PromoBanner";
 import RestaurantsList from "./_components/RestaurantsList";
+import Link from "next/link";
 
 export default async function Home() {
   const products = await db.product.findMany({
@@ -42,12 +43,14 @@ export default async function Home() {
       <div className="space-y-4 pt-6">
         <div className="flex items-center justify-between px-5 ">
           <h2 className="font-semibold">Pedidos Recomendados</h2>
-          <Button
-            variant="ghost"
-            className="h-fit p-0 text-primary hover:bg-transparent"
-          >
-            Ver Todos <ChevronRightIcon size={16} />
-          </Button>
+          <Link href="/products/recommended">
+            <Button
+              variant="ghost"
+              className="h-fit p-0 text-primary hover:bg-transparent"
+            >
+              Ver Todos <ChevronRightIcon size={16} />
+            </Button>
+          </Link>
         </div>
 
         <ProductsList products={products} />
@@ -63,12 +66,14 @@ export default async function Home() {
       <div className="space-y-4 py-6">
         <div className="flex items-center justify-between px-5 ">
           <h2 className="font-semibold">Restaurantes Recomendados</h2>
-          <Button
-            variant="ghost"
-            className="h-fit p-0 text-primary hover:bg-transparent"
-          >
-            Ver Todos <ChevronRightIcon size={16} />
-          </Button>
+          <Link href="/restaurants/recommended">
+            <Button
+              variant="ghost"
+              className="h-fit p-0 text-primary hover:bg-transparent"
+            >
+              Ver Todos <ChevronRightIcon size={16} />
+            </Button>
+          </Link>
         </div>
 
         <RestaurantsList />
