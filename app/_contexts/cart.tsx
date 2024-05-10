@@ -22,6 +22,7 @@ interface ICartcContext {
   totalPrice: number;
   totalDiscount: number;
   subTotalPrice: number;
+  totalQuantity: number;
   addProductToCart: ({
     product,
     quantity,
@@ -49,6 +50,7 @@ export const CartContext = createContext<ICartcContext>({
   totalDiscount: 0,
   totalPrice: 0,
   subTotalPrice: 0,
+  totalQuantity: 0,
   addProductToCart: () => {},
   decreaseProductQuantity: () => {},
   increaseProductQuantity: () => {},
@@ -73,6 +75,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const totalDiscount =
     subTotalPrice - totalPrice + Number(products?.[0]?.restaurant?.deliveryFee);
+
+  const totalQuantity = products.reduce((acc, product) => {
+    return acc + product.quantity;
+  }, 0);
 
   const addProductToCart = ({
     product,
@@ -164,6 +170,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         subTotalPrice,
         totalDiscount,
         totalPrice,
+        totalQuantity,
       }}
     >
       {children}
