@@ -33,7 +33,9 @@ const ProductIem = ({ product, className }: ProductItemProps) => {
             className="rounded-lg object-cover shadow-md"
           />
           {product.discountPercentage && (
-            <DiscountBadge discountPercentage={product.discountPercentage} />
+            <div className="absolute left-2 top-2">
+              <DiscountBadge discountPercentage={product.discountPercentage} />
+            </div>
           )}
         </div>
         <div>
