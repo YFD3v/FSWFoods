@@ -49,7 +49,7 @@ const RestaurantDetails = ({ restaurant }: RestaurantDetailsProps) => {
           <h1 className="text-xl font-semibold">{restaurant.name}</h1>
         </div>
 
-        <div className="flex items-center gap-[3px] rounded-full bg-foreground bg-muted-foreground px-2 py-[2px] text-white ">
+        <div className="flex items-center gap-[3px] rounded-full bg-muted-foreground px-2 py-[2px] text-white ">
           <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
           <span className="text-xs font-semibold ">5.0</span>
         </div>
