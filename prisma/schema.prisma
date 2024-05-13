@@ -34,34 +34,43 @@ model Category {
 //Caso eu faça o painel admin, eu posso adicionar a tabela da relação many to many aqui e adicionar uma propriedade de ordenação das categorias, para que ao mostrar os produtos no restaurant o usuário consiga escolher em qual ordem vai aparecer os seus produtos
 
 model Product {
-  id                 String     @id @default(uuid())
+  id                 String         @id @default(uuid())
   name               String
   description        String
   imageUrl           String
-  price              Decimal    @db.Decimal(10, 2)
-  discountPercentage Int        @default(0)
+  price              Decimal        @db.Decimal(10, 2)
+  discountPercentage Int            @default(0)
   restaurantId       String
-  restaurant         Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant         Restaurant     @relation(fields: [restaurantId], references: [id])
   categoryId         String
-  category           Category   @relation(fields: [categoryId], references: [id])
-  createdAt          DateTime   @default(now())
-  orders             Order[]
+  category           Category       @relation(fields: [categoryId], references: [id])
+  createdAt          DateTime       @default(now())
+  orderProducts      OrderProduct[]
+}
+
+model OrderProduct {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
 }
 
 model Order {
   //Criar um modelo de pedido com base nesses models 
-  id             String      @id @default(uuid())
+  id             String         @id @default(uuid())
   userId         String
-  user           User        @relation(fields: [userId], references: [id])
-  products       Product[]
-  restaurant     Restaurant  @relation(fields: [restaurantId], references: [id])
+  user           User           @relation(fields: [userId], references: [id])
+  products       OrderProduct[]
+  restaurant     Restaurant     @relation(fields: [restaurantId], references: [id])
   restaurantId   String
-  deliveryFee    Decimal     @db.Decimal(10, 2)
+  deliveryFee    Decimal        @db.Decimal(10, 2)
   deliverTime    Int
-  subTotalPrice  Decimal     @db.Decimal(10, 2)
-  totalPrice     Decimal     @db.Decimal(10, 2)
-  totalDiscounts Decimal     @db.Decimal(10, 2)
-  createdAt      DateTime    @default(now())
+  subTotalPrice  Decimal        @db.Decimal(10, 2)
+  totalPrice     Decimal        @db.Decimal(10, 2)
+  totalDiscounts Decimal        @db.Decimal(10, 2)
+  createdAt      DateTime       @default(now())
   status         OrderStatus
 }
 
