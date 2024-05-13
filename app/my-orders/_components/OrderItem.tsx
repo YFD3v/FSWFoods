@@ -3,10 +3,13 @@ import { Avatar, AvatarImage } from "@/app/_components/ui/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
+import { CartContext } from "@/app/_contexts/cart";
 import { formatCurrency } from "@/app/_helpers/price";
 import { OrderStatus, Prisma } from "@prisma/client";
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
@@ -26,22 +29,35 @@ const getOrderStatusLabel = (status: OrderStatus) => {
     case "CANCELED":
       return "Cancelado";
     case "COMPLETED":
-      return "Entregue";
+      return "Finalizado";
     case "CONFIRMED":
       return "Confirmado";
     case "DELIVERING":
-      return "Em entrega";
+      return "Em Transporte";
     case "PREPARING":
-      return "Em preparo";
+      return "Em Preparo";
   }
 };
 
 const OrderItem = ({ order }: OrderItemProps) => {
+  const router = useRouter();
+  const { addProductToCart } = useContext(CartContext);
+
+  const handleReDoOrderClick = () => {
+    for (const orderProduct of order.products) {
+      addProductToCart({
+        product: { ...orderProduct.product, restaurant: order.restaurant },
+        quantity: orderProduct.quantity,
+      });
+    }
+    router.push(`/restaurants/${order.restaurantId}`);
+  };
+
   return (
     <Card>
       <CardContent className="p-5">
         <div
-          className={`w-fit rounded-full bg-[#eeeeee] px-2 py-1 text-xs text-muted-foreground ${order.status !== "COMPLETED" ? "bg-[#eeeeee] " : "bg-green-500 text-white"}`}
+          className={`w-fit rounded-full bg-[#eeeeee] px-2 py-1 text-xs text-muted-foreground ${order.status !== "COMPLETED" && "bg-green-500 text-white"}`}
         >
           {getOrderStatusLabel(order.status)}
         </div>
@@ -91,6 +107,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
             size="sm"
             className="text-xs text-primary"
             disabled={order.status !== "COMPLETED"}
+            onClick={handleReDoOrderClick}
           >
             Refazer pedido
           </Button>
