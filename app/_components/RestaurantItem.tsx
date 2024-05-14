@@ -8,9 +8,9 @@ import Link from "next/link";
 import { cn } from "../_lib/utils";
 import { toggleFavoriteRestaurant } from "../_actions/restaurant";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
 
 interface RestaurantItemProps {
-  userId?: string;
   restaurant: Restaurant;
   className?: string;
   userFavoriteRestaurants: UserFavoriteRestaurant[];
@@ -18,22 +18,23 @@ interface RestaurantItemProps {
 
 const RestaurantItem = ({
   restaurant,
-  userId,
   className,
   userFavoriteRestaurants,
 }: RestaurantItemProps) => {
-  const isFavorite = userFavoriteRestaurants.some(
+  const { data: session } = useSession();
+
+  const isFavorited = userFavoriteRestaurants.some(
     (fav) => fav.restaurantId === restaurant.id,
   );
 
   const handleFavoriteClick = async () => {
-    if (!userId) return;
+    if (!session?.user.id) return;
     try {
-      await toggleFavoriteRestaurant(userId, restaurant.id);
+      await toggleFavoriteRestaurant(session?.user.id, restaurant.id);
       toast.success(
-        isFavorite
-          ? "Restaurante favoritado com sucesso!"
-          : "Restaurante removido dos favoritos!",
+        isFavorited
+          ? "Restaurante removido dos favoritos!"
+          : "Restaurante favoritado com sucesso!",
       );
     } catch (error) {
       toast.error("Erro ao favoritar restaurante");
@@ -56,13 +57,13 @@ const RestaurantItem = ({
             <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
             <span className="text-xs font-semibold ">5.0</span>
           </div>
-          {userId && (
+          {session?.user.id && (
             <Button
               size="icon"
-              className={`absolute right-2 top-2 h-7 w-7 rounded-full bg-gray-700 ${isFavorite && "bg-primary hover:bg-gray-700"}`}
+              className={`absolute right-2 top-2 h-7 w-7 rounded-full bg-gray-700 ${isFavorited && "bg-primary hover:bg-gray-700"}`}
               onClick={handleFavoriteClick}
             >
-              <HeartIcon className="fill-white" size={12} />
+              <HeartIcon size={16} className="fill-white" />
             </Button>
           )}
         </div>
