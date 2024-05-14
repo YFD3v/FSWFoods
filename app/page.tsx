@@ -55,7 +55,7 @@ export default async function Home() {
       <div className="px-5 pt-6">
         <Search />
       </div>
-      <div className="px-5 pt-6">
+      <div className="pt-6">
         <CategoryList />
       </div>
       <div className="px-5 pt-6">
