@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Restaurant {
-  id                  String     @id @default(uuid())
+  id                  String                   @id @default(uuid())
   name                String
   imageUrl            String
-  deliveryFee         Decimal    @db.Decimal(10, 2)
+  deliveryFee         Decimal                  @db.Decimal(10, 2)
   deliveryTimeMinutes Int
   website             String?
   address             String?
@@ -20,6 +20,17 @@ model Restaurant {
   categories          Category[]
   products            Product[]
   Order               Order[]
+  usersWhoFavorited   UserFavoriteRestaurant[]
+}
+
+model UserFavoriteRestaurant {
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  createdAt    DateTime   @default(now())
+
+   @@id([userId, restaurantId])
 }
 
 model Category {
@@ -113,14 +124,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  Order         Order[]
+  id                  String                   @id @default(cuid())
+  name                String?
+  email               String?                  @unique
+  emailVerified       DateTime?                @map("email_verified")
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  Order               Order[]
+  favoriteRestaurants UserFavoriteRestaurant[]
 
   @@map("users")
 }
