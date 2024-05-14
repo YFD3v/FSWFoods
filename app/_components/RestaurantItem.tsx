@@ -45,17 +45,16 @@ const RestaurantItem = ({
     <div className={cn("min-w-[266px] max-w-[266px]", className)}>
       <div className="w-full space-y-3">
         <div className="relative h-[136px] w-full">
-          <Link
-            className="h-full w-full"
-            href={`/restaurants/${restaurant.id}`}
-          >
-            <Image
-              src={restaurant.imageUrl}
-              alt={restaurant.name}
-              fill
-              sizes="100%"
-              className="rounded-lg object-cover shadow-md"
-            />
+          <Link className="" href={`/restaurants/${restaurant.id}`}>
+            <div className="relative h-[136px] w-full">
+              <Image
+                src={restaurant.imageUrl}
+                alt={restaurant.name}
+                fill
+                sizes="100%"
+                className="rounded-lg object-cover shadow-md"
+              />
+            </div>
           </Link>
           <div className="absolute left-2 top-2 flex items-center gap-[2px] rounded-full bg-white px-2 py-[2px] ">
             <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
