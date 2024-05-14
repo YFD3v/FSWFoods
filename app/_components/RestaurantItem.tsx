@@ -45,11 +45,15 @@ const RestaurantItem = ({
     <div className={cn("min-w-[266px] max-w-[266px]", className)}>
       <div className="w-full space-y-3">
         <div className="relative h-[136px] w-full">
-          <Link href={`/restaurants/${restaurant.id}`}>
+          <Link
+            className="h-full w-full"
+            href={`/restaurants/${restaurant.id}`}
+          >
             <Image
               src={restaurant.imageUrl}
               alt={restaurant.name}
               fill
+              sizes="100%"
               className="rounded-lg object-cover shadow-md"
             />
           </Link>

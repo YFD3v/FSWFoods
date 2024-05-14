@@ -41,6 +41,7 @@ const RestaurantDetails = ({ restaurant }: RestaurantDetailsProps) => {
           <div className="relative h-8 w-8">
             <Image
               fill
+              sizes="100%"
               className="rounded-full object-cover"
               src={restaurant.imageUrl}
               alt={restaurant.name}

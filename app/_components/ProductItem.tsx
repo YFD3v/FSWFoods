@@ -30,6 +30,7 @@ const ProductIem = ({ product, className }: ProductItemProps) => {
             src={product.imageUrl}
             alt={product.name}
             fill
+            sizes="100%"
             className="rounded-lg object-cover shadow-md"
           />
           {product.discountPercentage && (
