@@ -21,6 +21,7 @@ model Restaurant {
   products            Product[]
   Order               Order[]
   usersWhoFavorited   UserFavoriteRestaurant[]
+  rating    RestaurantRating[]
 }
 
 model UserFavoriteRestaurant {
@@ -30,7 +31,7 @@ model UserFavoriteRestaurant {
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   createdAt    DateTime   @default(now())
 
-   @@id([userId, restaurantId])
+  @@id([userId, restaurantId])
 }
 
 model Category {
@@ -42,7 +43,14 @@ model Category {
   createdAt   DateTime     @default(now())
 }
 
-//Caso eu faça o painel admin, eu posso adicionar a tabela da relação many to many aqui e adicionar uma propriedade de ordenação das categorias, para que ao mostrar os produtos no restaurant o usuário consiga escolher em qual ordem vai aparecer os seus produtos
+model RestaurantRating {
+  id           String     @id @default(uuid())
+  rating       Int
+  restaurantId String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+}
 
 model Product {
   id                 String         @id @default(uuid())
@@ -133,6 +141,7 @@ model User {
   sessions            Session[]
   Order               Order[]
   favoriteRestaurants UserFavoriteRestaurant[]
+  RestaurantRating    RestaurantRating[]
 
   @@map("users")
 }

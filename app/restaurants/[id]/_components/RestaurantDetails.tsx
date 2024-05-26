@@ -1,8 +1,14 @@
 import DeliveryInfo from "@/app/_components/DeliveryInfo";
 import ProductsList from "@/app/_components/ProductsList";
+import { Button } from "@/app/_components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/app/_components/ui/sheet";
 import { Prisma } from "@prisma/client";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
+import AvaliationMenu from "./AvaliationMenu";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
+import { calculatedAvaliationRestaurant } from "@/app/_actions/restaurant";
 
 interface RestaurantDetailsProps {
   restaurant: Prisma.RestaurantGetPayload<{
@@ -33,7 +39,10 @@ interface RestaurantDetailsProps {
   }>;
 }
 
-const RestaurantDetails = ({ restaurant }: RestaurantDetailsProps) => {
+const RestaurantDetails = async ({ restaurant }: RestaurantDetailsProps) => {
+  const session = await getServerSession(authOptions);
+  const rating = await calculatedAvaliationRestaurant(restaurant.id);
+
   return (
     <div className="relative z-50 mt-[-1.5rem] rounded-tl-3xl rounded-tr-3xl bg-white py-5">
       <div className="flex items-center justify-between px-5 pt-5">
@@ -52,8 +61,22 @@ const RestaurantDetails = ({ restaurant }: RestaurantDetailsProps) => {
 
         <div className="flex items-center gap-[3px] rounded-full bg-muted-foreground px-2 py-[2px] text-white ">
           <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
-          <span className="text-xs font-semibold ">5.0</span>
+          <span className="text-xs font-semibold ">
+            {isNaN(rating) ? "0.0" : rating}
+          </span>
         </div>
+        {session?.user.id && (
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button size="sm" className="text-xs">
+                Avaliar
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="bottom">
+              <AvaliationMenu restaurantId={restaurant.id} />
+            </SheetContent>
+          </Sheet>
+        )}
       </div>
 
       <div className="px-5">

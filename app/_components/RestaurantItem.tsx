@@ -6,9 +6,13 @@ import { formatCurrency } from "../_helpers/price";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { cn } from "../_lib/utils";
-import { toggleFavoriteRestaurant } from "../_actions/restaurant";
+import {
+  calculatedAvaliationRestaurant,
+  toggleFavoriteRestaurant,
+} from "../_actions/restaurant";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 interface RestaurantItemProps {
   restaurant: Restaurant;
@@ -21,6 +25,7 @@ const RestaurantItem = ({
   className,
   userFavoriteRestaurants,
 }: RestaurantItemProps) => {
+  const [rating, setRating] = useState<number>();
   const { data: session } = useSession();
 
   const isFavorited = userFavoriteRestaurants.some(
@@ -41,6 +46,16 @@ const RestaurantItem = ({
     }
   };
 
+  useEffect(() => {
+    const fetchCalculatedRating = async () => {
+      const calculatedRating = await calculatedAvaliationRestaurant(
+        restaurant.id,
+      );
+      setRating(calculatedRating);
+    };
+    fetchCalculatedRating();
+  }, []);
+
   return (
     <div className={cn("min-w-[266px] max-w-[266px]", className)}>
       <div className="w-full space-y-3">
@@ -58,7 +73,9 @@ const RestaurantItem = ({
           </Link>
           <div className="absolute left-2 top-2 flex items-center gap-[2px] rounded-full bg-white px-2 py-[2px] ">
             <StarIcon size={12} className="fill-yellow-400 text-yellow-400" />
-            <span className="text-xs font-semibold ">5.0</span>
+            <span className="text-xs font-semibold ">
+              {isNaN(rating as number) ? "0.0" : rating}
+            </span>
           </div>
           {session?.user.id && (
             <Button
