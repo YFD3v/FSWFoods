@@ -16,12 +16,13 @@ model Restaurant {
   website             String?
   address             String?
   phone               String?
-  //Relação many to many
   categories          Category[]
   products            Product[]
   Order               Order[]
   usersWhoFavorited   UserFavoriteRestaurant[]
-  rating    RestaurantRating[]
+  rating              RestaurantRating[]
+  ownerId             String?                  @unique
+  owner               User?
 }
 
 model UserFavoriteRestaurant {
@@ -142,8 +143,17 @@ model User {
   Order               Order[]
   favoriteRestaurants UserFavoriteRestaurant[]
   RestaurantRating    RestaurantRating[]
+  role                ROLE                     @default(CLIENT)
+  password            String?
+  ownRestaurant       Restaurant?              @relation(fields: [restaurantId], references: [id])
+  restaurantId        String?                  @unique
 
   @@map("users")
+}
+
+enum ROLE {
+  OWNER
+  CLIENT
 }
 
 model VerificationToken {
