@@ -63,8 +63,15 @@ const Header = () => {
                       src={session.user.image as string | undefined}
                     />
                     <AvatarFallback>
-                      {session?.user?.name?.split(" ")[0][0]}{" "}
-                      {session?.user?.name?.split(" ")[1][0]}
+                      {session?.user?.name?.split(" ")?.length !== undefined &&
+                      session?.user?.name?.split(" ")?.length > 1 ? (
+                        <>
+                          {session?.user?.name?.split(" ")[0][0]}{" "}
+                          {session?.user?.name?.split(" ")[1][0]}
+                        </>
+                      ) : (
+                        <>{session?.user?.name?.split(" ")[0][0]}</>
+                      )}
                     </AvatarFallback>
                   </Avatar>
                   <div>
