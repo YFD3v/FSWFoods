@@ -3,12 +3,10 @@
 import { Button } from "@/app/_components/ui/button";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
-import { redirect } from "next/navigation";
 
 const GoogleButton = () => {
-  const loginCustomer = () => {
-    signIn("google");
-    redirect("/");
+  const loginCustomer = async () => {
+    await signIn("google", { callbackUrl: "/" });
   };
   return (
     <div>

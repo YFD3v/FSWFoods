@@ -38,17 +38,26 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, user }) {
-      session.user = { ...session.user, id: user.id };
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.sub;
+      }
+
       return session;
     },
-
-    async signIn(params) {
-      if (params?.account?.type === "credentials") {
-        return "/dashboard";
-      }
-      return "/";
-    },
+  },
+  //Caso de bug na session e ela se destruir sozinha, isso resolve:
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

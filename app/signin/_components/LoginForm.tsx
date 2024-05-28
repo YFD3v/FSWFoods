@@ -31,7 +31,7 @@ interface LoginProps {
 
 const loginToDashboard = async ({ email, password }: LoginInputs) => {
   try {
-    await signIn("credentials", { email, password });
+    await signIn("credentials", { email, password, callbackUrl: "/dashboard" });
   } catch (error: any) {
     throw error;
   }
