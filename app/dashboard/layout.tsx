@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import styles from "@/app/_components/dashboard/dashboard.module.css";
+import styles from "@/app/_components/Dashboard/dashboard.module.css";
 import Sidebar from "../_components/Dashboard/sidebar/sidebar";
 import Navbar from "../_components/Dashboard/navbar/navbar";
 import Footer from "../_components/Dashboard/footer/footer";
