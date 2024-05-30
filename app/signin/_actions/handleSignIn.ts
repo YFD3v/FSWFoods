@@ -50,7 +50,7 @@ export const authenticate = async ({ email, password }: LoginInputs) => {
     if (!isPasswordCorrect) throw new Error("Wrong credentials!");
     return user;
   } catch (error) {
-    console.log(`Erro at authenticating: ${error}`);
+    console.error(`Erro at authenticating: ${error}`);
     throw new Error("Failed to login!");
   }
 };

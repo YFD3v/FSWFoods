@@ -75,7 +75,7 @@ const RegisterForm = ({ defaultValues }: RegisterProps) => {
       setIsLoading(false);
     } catch (error: any) {
       toast.error(`Houve um erro: ${error.message}`);
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
