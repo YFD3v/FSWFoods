@@ -1,4 +1,4 @@
-import styles from "@/app/_components/dashboard/dashboard.module.css";
+import styles from "@/app/_components/Dashboard/dashboard.module.css";
 import Card from "../_components/Dashboard/card/card";
 import { db } from "../_lib/prisma";
 import { getServerSession } from "next-auth";
