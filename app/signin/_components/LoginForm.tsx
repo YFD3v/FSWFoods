@@ -24,18 +24,11 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { LoginInputs } from "../_actions/handleSignIn";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface LoginProps {
   defaultValues?: z.infer<typeof formSchema>;
 }
-
-const loginToDashboard = async ({ email, password }: LoginInputs) => {
-  try {
-    await signIn("credentials", { email, password, callbackUrl: "/dashboard" });
-  } catch (error: any) {
-    throw error;
-  }
-};
 
 const formSchema = z.object({
   email: z
@@ -51,6 +44,25 @@ const LoginForm = ({ defaultValues }: LoginProps) => {
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+  const router = useRouter();
+  const loginToDashboard = async ({ email, password }: LoginInputs) => {
+    try {
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (!response || response.error) {
+        throw new Error(
+          `${response?.error ? response?.error : "Failed to login"}`,
+        );
+      }
+      if (response.ok) return router.push("/dashboard");
+    } catch (error: any) {
+      throw new Error(`${error.message}`);
+    }
+  };
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);

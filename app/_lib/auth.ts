@@ -26,13 +26,16 @@ export const authOptions: AuthOptions = {
           return null;
         try {
           const user = await authenticate({
-            email: credentials?.email as string,
-            password: credentials?.password as string,
+            email: credentials.email as string,
+            password: credentials.password as string,
           });
-
           return user;
-        } catch (err) {
-          return null;
+        } catch (error) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          } else {
+            throw new Error("Erro desconhecido ao autenticar");
+          }
         }
       },
     }),

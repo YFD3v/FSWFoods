@@ -21,11 +21,10 @@ import { redirect } from "next/navigation";
 
 const SignInPage = async () => {
   const session = await getServerSession(authOptions);
-  const user = await db.user.findUnique({ where: { id: session?.user.id } });
+  const user = await db.user.findFirst({ where: { id: session?.user.id } });
 
   if (user) {
     if (user.role === "OWNER") redirect("/dashboard");
-    redirect("/");
   }
 
   return (
