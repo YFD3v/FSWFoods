@@ -20,4 +20,5 @@ Adicionei o arquivo commit-msg e adicionei o código:
 //Serve para rodar algum comando antes de cada commit para padronização e organização das linhas de código
 //Lint-staged serve para rodar o comando apenas no arquivo que teve mudança
 
-//Fazer dashboard admin
+
+Futuramente irei fazer método de pagamento.

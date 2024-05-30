@@ -42,6 +42,7 @@ export const toggleFavoriteRestaurant = async (
   });
 
   revalidatePath("/");
+  revalidatePath("/dashboard");
 };
 
 export const avaliateRestaurant = async ({
@@ -63,6 +64,7 @@ export const avaliateRestaurant = async ({
       },
     });
     revalidatePath("/restaurants/" + restaurantId);
+    revalidatePath("/dashboard");
     revalidatePath("/");
     return avaliaton;
   } catch (error) {
@@ -86,6 +88,7 @@ export const updateAvaliationRestaurant = async ({
       },
     });
     revalidatePath("/restaurants/" + restaurantId);
+    revalidatePath("/dashboard");
     revalidatePath("/");
     return updatedAvaliation;
   } catch (error) {

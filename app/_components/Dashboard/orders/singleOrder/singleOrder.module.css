@@ -1,0 +1,76 @@
+.container {
+  display: flex;
+  gap: 50px;
+  margin-top: 20px;
+}
+
+.infoContainer {
+  flex: 1;
+  background-color: var(---bgSoft);
+  font-weight: bold;
+  padding: 20px;
+  color: var(--textSoft);
+  border-radius: 10px;
+  height: max-content;
+}
+
+.imgContainer {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.formContainer {
+  flex: 3;
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input,
+.form textarea,
+.form select {
+  padding: 20px;
+  border: 2px solid #2e374a /*#2e374a*/;
+  border-radius: 5px;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 10px 0px;
+  resize: vertical;
+}
+
+.form label {
+  font-size: 12px;
+}
+
+.form button {
+  width: 100%;
+  padding: 30px;
+  font-size: 1.5rem;
+}
+.table {
+   width: 100%;
+ }
+ 
+ .table td {
+   padding: 10px;
+ }
+ 
+ .product {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+ }
+ 
+ .productImage {
+   border-radius: 50%;
+   object-fit: cover;
+ }
