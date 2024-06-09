@@ -290,10 +290,11 @@ export const updateProduct = async (formData: FormData) => {
       name,
       imageUrl,
       price,
-      discountPercentage,
+      discountPercentage: Number(discountPercentage),
       description,
       ownerId,
     };
+
     Object.keys(updateFields).forEach(
       (key) =>
         (updateFields[key] === "" || updateFields[key] === undefined) &&
@@ -306,7 +307,6 @@ export const updateProduct = async (formData: FormData) => {
       },
       data: {
         ...updateFields,
-        discountPercentage: Number(updateFields.discountPercentage),
         category: {
           connect: {
             id: categoryFetched.id,
