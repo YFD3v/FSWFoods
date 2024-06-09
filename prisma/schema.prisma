@@ -29,7 +29,7 @@ model UserFavoriteRestaurant {
   userId       String
   user         User       @relation(fields: [userId], references: [id])
   restaurantId String
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   createdAt    DateTime   @default(now())
 
   @@id([userId, restaurantId])
@@ -48,7 +48,7 @@ model RestaurantRating {
   id           String     @id @default(uuid())
   rating       Int
   restaurantId String
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   userId       String
   user         User       @relation(fields: [userId], references: [id])
 }
@@ -61,7 +61,7 @@ model Product {
   price              Decimal        @db.Decimal(10, 2)
   discountPercentage Int            @default(0)
   restaurantId       String
-  restaurant         Restaurant     @relation(fields: [restaurantId], references: [id])
+  restaurant         Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   categoryId         String
   category           Category       @relation(fields: [categoryId], references: [id])
   createdAt          DateTime       @default(now())
@@ -71,9 +71,9 @@ model Product {
 model OrderProduct {
   id        String  @id @default(uuid())
   orderId   String
-  order     Order   @relation(fields: [orderId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   quantity  Int
 }
 
@@ -83,7 +83,7 @@ model Order {
   userId         String
   user           User           @relation(fields: [userId], references: [id])
   products       OrderProduct[]
-  restaurant     Restaurant     @relation(fields: [restaurantId], references: [id])
+  restaurant     Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId   String
   deliveryFee    Decimal        @db.Decimal(10, 2)
   deliverTime    Int
