@@ -357,10 +357,12 @@ export const updateUser = async ({
         (updateFields[key] === "" || updateFields[key] === undefined) &&
         delete updateFields[key],
     );
+    let hashedPassword;
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(updateFields?.password, salt);
-
+    if (updateFields.password) {
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(updateFields?.password, salt);
+    }
     const updatedUser = await db.user.update({
       where: { id },
       data: !updateFields.password
